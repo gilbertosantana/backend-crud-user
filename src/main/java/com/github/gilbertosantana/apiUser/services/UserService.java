@@ -1,6 +1,7 @@
 package com.github.gilbertosantana.apiUser.services;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +45,12 @@ public class UserService {
 		Page<User> page = userRepository.findAll(pageable);
 		Page<UserResponseDTO> pageDTO = page.map(x -> new UserResponseDTO(x));
 		return pageDTO;
+	}
+	
+	public UserResponseDTO findById(Long id) {
+		Optional<User> obj = userRepository.findById(id);
+		Optional<UserResponseDTO> objDto = obj.map(x -> new UserResponseDTO(obj.get()));
+		return objDto.orElseThrow();
 	}
 	
 	public User toEntity(UserRequestDTO dto) {

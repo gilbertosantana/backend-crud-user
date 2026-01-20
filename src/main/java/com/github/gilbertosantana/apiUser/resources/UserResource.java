@@ -55,4 +55,10 @@ public class UserResource {
 		Page<UserResponseDTO> page = userService.findAll(pageable);
 		return ResponseEntity.ok().body(page);
 	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
+		UserResponseDTO objDto = userService.findById(id);
+		return ResponseEntity.ok().body(objDto);
+	}
 }
