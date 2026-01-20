@@ -12,6 +12,8 @@ import com.github.gilbertosantana.apiUser.model.User;
 import com.github.gilbertosantana.apiUser.model.enums.Profile;
 import com.github.gilbertosantana.apiUser.repository.UserRepository;
 
+import jakarta.persistence.EntityExistsException;
+
 @Service
 public class UserService {
 	
@@ -24,6 +26,18 @@ public class UserService {
 	public User insert(UserRequestDTO objDto) {
 		User obj = toEntity(objDto);
 		return userRepository.save(obj);
+	}
+	
+	public UserResponseDTO update(Long id, UserRequestDTO obj) {
+		try {
+			User entity = userRepository.getReferenceById(id);
+			updateDate(obj, entity);
+			userRepository.save(entity);
+			UserResponseDTO objDTO = new UserResponseDTO(entity);
+			return objDTO;
+		} catch (EntityExistsException e) {
+			throw new EntityExistsException(e.getMessage());
+		}
 	}
 	
 	public Page<UserResponseDTO> findAll(Pageable pageable) {
@@ -44,5 +58,14 @@ public class UserService {
 		user.setCpf(dto.getCpf());
 		user.setProfile(Profile.valueOf(dto.getProfile()));
 		return user;
+	}
+
+	private void updateDate(UserRequestDTO obj, User entity) {
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPassword(obj.getPassword());
+		entity.setTelephone(obj.getTelephone());
+		entity.setCpf(obj.getCpf());
+		entity.setProfile(Profile.valueOf(obj.getProfile()));
 	}
 }
