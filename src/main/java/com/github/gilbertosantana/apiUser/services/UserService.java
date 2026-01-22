@@ -13,6 +13,7 @@ import com.github.gilbertosantana.apiUser.dto.response.UserResponseDTO;
 import com.github.gilbertosantana.apiUser.model.User;
 import com.github.gilbertosantana.apiUser.model.enums.Profile;
 import com.github.gilbertosantana.apiUser.repository.UserRepository;
+import com.github.gilbertosantana.apiUser.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityExistsException;
 
@@ -51,7 +52,7 @@ public class UserService {
 	public UserResponseDTO findById(Long id) {
 		Optional<User> obj = userRepository.findById(id);
 		Optional<UserResponseDTO> objDto = obj.map(x -> new UserResponseDTO(obj.get()));
-		return objDto.orElseThrow();
+		return objDto.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public void delete(Long id) {
