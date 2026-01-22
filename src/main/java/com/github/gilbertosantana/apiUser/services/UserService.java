@@ -58,7 +58,7 @@ public class UserService {
 	public void delete(Long id) {
 		Optional<User> obj = userRepository.findById(id);
 		if(!obj.isPresent()) {
-			throw new ObjectNotFoundException(id, "User");
+			throw new ResourceNotFoundException(id);
 		}
 		obj.get().setActive(false);
 		userRepository.save(obj.get());
