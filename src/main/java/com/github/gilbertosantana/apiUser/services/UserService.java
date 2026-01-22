@@ -15,7 +15,7 @@ import com.github.gilbertosantana.apiUser.model.enums.Profile;
 import com.github.gilbertosantana.apiUser.repository.UserRepository;
 import com.github.gilbertosantana.apiUser.services.exceptions.ResourceNotFoundException;
 
-import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
@@ -38,8 +38,8 @@ public class UserService {
 			userRepository.save(entity);
 			UserResponseDTO objDTO = new UserResponseDTO(entity);
 			return objDTO;
-		} catch (EntityExistsException e) {
-			throw new EntityExistsException(e.getMessage());
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
 		}
 	}
 	
