@@ -3,7 +3,6 @@ package com.github.gilbertosantana.apiUser.services;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -44,7 +43,7 @@ public class UserService {
 	}
 	
 	public Page<UserResponseDTO> findAll(Pageable pageable) {
-		Page<User> page = userRepository.findAll(pageable);
+		Page<User> page = userRepository.findByActiveTrue(pageable);
 		Page<UserResponseDTO> pageDTO = page.map(x -> new UserResponseDTO(x));
 		return pageDTO;
 	}
@@ -56,12 +55,10 @@ public class UserService {
 	}
 	
 	public void delete(Long id) {
-		Optional<User> obj = userRepository.findById(id);
-		if(!obj.isPresent()) {
+		if(!userRepository.existsById(id)) {
 			throw new ResourceNotFoundException(id);
 		}
-		obj.get().setActive(false);
-		userRepository.save(obj.get());
+		userRepository.deleteById(id);
 	}
 	
 	public User toEntity(UserRequestDTO dto) {

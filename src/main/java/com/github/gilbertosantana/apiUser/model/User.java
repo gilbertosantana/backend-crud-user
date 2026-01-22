@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.hibernate.annotations.SQLDelete;
+
 import com.github.gilbertosantana.apiUser.model.enums.Profile;
 
 import jakarta.persistence.Entity;
@@ -14,6 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_user")
+@SQLDelete(sql = "UPDATE TB_USER SET ACTIVE = FALSE WHERE ID = ?")
 public class User implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
