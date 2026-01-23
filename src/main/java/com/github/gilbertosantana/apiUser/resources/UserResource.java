@@ -20,7 +20,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.github.gilbertosantana.apiUser.dto.request.UserRequestDTO;
 import com.github.gilbertosantana.apiUser.dto.response.UserResponseDTO;
-import com.github.gilbertosantana.apiUser.model.User;
 import com.github.gilbertosantana.apiUser.services.UserService;
 
 @RestController
@@ -35,14 +34,13 @@ public class UserResource {
 	
 	@PostMapping
 	public ResponseEntity<UserResponseDTO> insert(@RequestBody UserRequestDTO objDto) {
-		User obj = userService.insert(objDto);
-		UserResponseDTO userDto = new UserResponseDTO(obj);
+		UserResponseDTO obj = userService.insert(objDto);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentContextPath()
 				.path("/{id}")
 				.buildAndExpand(obj.getId())
 				.toUri();
-		return ResponseEntity.created(uri).body(userDto);
+		return ResponseEntity.created(uri).body(obj);
 	}
 	
 	@PutMapping(value = "/{id}")

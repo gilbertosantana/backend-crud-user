@@ -1,6 +1,5 @@
 package com.github.gilbertosantana.apiUser.services;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -11,6 +10,7 @@ import com.github.gilbertosantana.apiUser.dto.request.UserRequestDTO;
 import com.github.gilbertosantana.apiUser.dto.response.UserResponseDTO;
 import com.github.gilbertosantana.apiUser.model.User;
 import com.github.gilbertosantana.apiUser.model.enums.Profile;
+import com.github.gilbertosantana.apiUser.model.mapper.UserMapper;
 import com.github.gilbertosantana.apiUser.repository.UserRepository;
 import com.github.gilbertosantana.apiUser.services.exceptions.ResourceNotFoundException;
 
@@ -20,14 +20,18 @@ import jakarta.persistence.EntityNotFoundException;
 public class UserService {
 	
 	private final UserRepository userRepository;
+	private final UserMapper userMapper;
 	
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, UserMapper userMapper) {
 		this.userRepository = userRepository;
+		this.userMapper = userMapper;
 	}
 	
-	public User insert(UserRequestDTO objDto) {
-		User obj = toEntity(objDto);
-		return userRepository.save(obj);
+	public UserResponseDTO insert(UserRequestDTO objDto) {
+		User obj = userMapper.toEntity(objDto);
+		userRepository.save(obj);
+		return userMapper.toResponsDto(obj);
+		
 	}
 	
 	public UserResponseDTO update(Long id, UserRequestDTO obj) {
@@ -59,20 +63,6 @@ public class UserService {
 			throw new ResourceNotFoundException(id);
 		}
 		userRepository.deleteById(id);
-	}
-	
-	public User toEntity(UserRequestDTO dto) {
-		User user = new User();
-		user.setName(dto.getName());
-		user.setEmail(dto.getEmail());
-		user.setPassword(dto.getPassword());
-		user.setCreationDate(LocalDate.now());
-		user.setActive(true);
-		user.setUpdateDate(LocalDate.now());
-		user.setTelephone(dto.getTelephone());
-		user.setCpf(dto.getCpf());
-		user.setProfile(Profile.valueOf(dto.getProfile()));
-		return user;
 	}
 
 	private void updateDate(UserRequestDTO obj, User entity) {
