@@ -1,5 +1,6 @@
 package com.github.gilbertosantana.apiUser.services;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -7,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.github.gilbertosantana.apiUser.dto.request.UserRequestDTO;
+import com.github.gilbertosantana.apiUser.dto.request.UserUpdateDTO;
 import com.github.gilbertosantana.apiUser.dto.response.UserResponseDTO;
 import com.github.gilbertosantana.apiUser.model.User;
-import com.github.gilbertosantana.apiUser.model.enums.Profile;
 import com.github.gilbertosantana.apiUser.model.mapper.UserMapper;
 import com.github.gilbertosantana.apiUser.repository.UserRepository;
 import com.github.gilbertosantana.apiUser.services.exceptions.ResourceNotFoundException;
@@ -29,18 +30,20 @@ public class UserService {
 	
 	public UserResponseDTO insert(UserRequestDTO objDto) {
 		User obj = userMapper.toEntity(objDto);
+		obj.setActive(true);
+		obj.setCreationDate(LocalDate.now());
 		userRepository.save(obj);
 		return userMapper.toResponsDto(obj);
 		
 	}
 	
-	public UserResponseDTO update(Long id, UserRequestDTO obj) {
+	public UserResponseDTO update(Long id, UserUpdateDTO obj) {
 		try {
 			User entity = userRepository.getReferenceById(id);
-			updateDate(obj, entity);
+			userMapper.updateDate(entity, obj);
+			entity.setUpdateDate(LocalDate.now());
 			userRepository.save(entity);
-			UserResponseDTO objDTO = new UserResponseDTO(entity);
-			return objDTO;
+			return userMapper.toResponsDto(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
@@ -63,14 +66,5 @@ public class UserService {
 			throw new ResourceNotFoundException(id);
 		}
 		userRepository.deleteById(id);
-	}
-
-	private void updateDate(UserRequestDTO obj, User entity) {
-		entity.setName(obj.getName());
-		entity.setEmail(obj.getEmail());
-		entity.setPassword(obj.getPassword());
-		entity.setTelephone(obj.getTelephone());
-		entity.setCpf(obj.getCpf());
-		entity.setProfile(Profile.valueOf(obj.getProfile()));
 	}
 }
