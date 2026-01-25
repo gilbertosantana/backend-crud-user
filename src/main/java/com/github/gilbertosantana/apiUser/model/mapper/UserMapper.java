@@ -3,6 +3,7 @@ package com.github.gilbertosantana.apiUser.model.mapper;
 import org.springframework.stereotype.Component;
 
 import com.github.gilbertosantana.apiUser.dto.request.UserRequestDTO;
+import com.github.gilbertosantana.apiUser.dto.request.UserUpdateDTO;
 import com.github.gilbertosantana.apiUser.dto.response.UserResponseDTO;
 import com.github.gilbertosantana.apiUser.model.User;
 import com.github.gilbertosantana.apiUser.model.enums.Profile;
@@ -52,5 +53,13 @@ public class UserMapper {
 		dto.setProfile(user.getProfile());
 		return dto;
 		
+	}
+	
+	public void updateDate(User entity, UserUpdateDTO dto) {
+		entity.setName(dto.getName());
+		entity.setEmail(dto.getEmail());
+		entity.setTelephone(dto.getTelephone());
+		entity.setCpf(dto.getCpf());
+		entity.setProfile(Profile.valueOf(dto.getProfile()));
 	}
 }
