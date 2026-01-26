@@ -11,7 +11,7 @@ import com.github.gilbertosantana.apiUser.model.enums.Profile;
 @Component
 public class UserMapper {
 	
-	public User toEntity(UserRequestDTO dto) {
+	public static User toEntity(UserRequestDTO dto) {
 		User user = new User();
 		user.setName(dto.getName());
 		user.setEmail(dto.getEmail());
@@ -23,7 +23,7 @@ public class UserMapper {
 		
 	}
 	
-	public User toEntity(UserResponseDTO dto) {
+	public static User toEntity(UserResponseDTO dto) {
 		User user = new User();
 		user.setId(dto.getId());
 		user.setName(dto.getName());
@@ -33,7 +33,7 @@ public class UserMapper {
 		
 	}
 	
-	public UserRequestDTO toRequestDto(User user) {
+	public static UserRequestDTO toRequestDto(User user) {
 		UserRequestDTO dto = new UserRequestDTO();
 		dto.setName(user.getName());
 		dto.setEmail(user.getEmail());
@@ -45,7 +45,7 @@ public class UserMapper {
 		
 	}
 	
-	public UserResponseDTO toResponsDto(User user) {
+	public static UserResponseDTO toResponsDto(User user) {
 		UserResponseDTO dto = new UserResponseDTO();
 		dto.setId(user.getId());
 		dto.setName(user.getName());
@@ -55,7 +55,7 @@ public class UserMapper {
 		
 	}
 	
-	public void updateDate(User entity, UserUpdateDTO dto) {
+	public static void updateDate(User entity, UserUpdateDTO dto) {
 		entity.setName(dto.getName());
 		entity.setEmail(dto.getEmail());
 		entity.setTelephone(dto.getTelephone());
