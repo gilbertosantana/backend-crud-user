@@ -1,6 +1,5 @@
 package com.github.gilbertosantana.apiUser.dto.response;
 
-import com.github.gilbertosantana.apiUser.model.User;
 import com.github.gilbertosantana.apiUser.model.enums.Profile;
 
 public class UserResponseDTO {
@@ -12,14 +11,6 @@ public class UserResponseDTO {
 	
 	public UserResponseDTO() {
 	
-	}
-	
-	public UserResponseDTO(User user) {
-		id = user.getId();
-		name = user.getName();
-		email = user.getEmail();
-		profile = user.getProfile();
-		
 	}
 
 	public Long getId() {

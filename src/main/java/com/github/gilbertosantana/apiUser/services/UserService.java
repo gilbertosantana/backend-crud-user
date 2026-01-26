@@ -21,43 +21,41 @@ import jakarta.persistence.EntityNotFoundException;
 public class UserService {
 	
 	private final UserRepository userRepository;
-	private final UserMapper userMapper;
 	
-	public UserService(UserRepository userRepository, UserMapper userMapper) {
+	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
-		this.userMapper = userMapper;
 	}
 	
 	public UserResponseDTO insert(UserRequestDTO objDto) {
-		User obj = userMapper.toEntity(objDto);
+		User obj = UserMapper.toEntity(objDto);
 		obj.setActive(true);
 		obj.setCreationDate(LocalDate.now());
 		userRepository.save(obj);
-		return userMapper.toResponsDto(obj);
+		return UserMapper.toResponsDto(obj);
 		
 	}
 	
 	public UserResponseDTO update(Long id, UserUpdateDTO obj) {
 		try {
 			User entity = userRepository.getReferenceById(id);
-			userMapper.updateDate(entity, obj);
+			UserMapper.updateDate(entity, obj);
 			entity.setUpdateDate(LocalDate.now());
 			userRepository.save(entity);
-			return userMapper.toResponsDto(entity);
+			return UserMapper.toResponsDto(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
 	}
 	
 	public Page<UserResponseDTO> findAll(Pageable pageable) {
-		Page<User> page = userRepository.findByActiveTrue(pageable);
-		Page<UserResponseDTO> pageDTO = page.map(x -> new UserResponseDTO(x));
-		return pageDTO;
+		Page<User> page = userRepository.findAll(pageable);
+		Page<UserResponseDTO> pageDto = page.map(UserMapper::toResponsDto);
+		return pageDto;
 	}
 	
 	public UserResponseDTO findById(Long id) {
 		Optional<User> obj = userRepository.findById(id);
-		Optional<UserResponseDTO> objDto = obj.map(x -> new UserResponseDTO(obj.get()));
+		Optional<UserResponseDTO> objDto = obj.map(UserMapper::toResponsDto);
 		return objDto.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
