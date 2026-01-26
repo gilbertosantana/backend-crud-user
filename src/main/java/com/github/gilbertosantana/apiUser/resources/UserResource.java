@@ -4,6 +4,7 @@ package com.github.gilbertosantana.apiUser.resources;
 
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,8 +52,8 @@ public class UserResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<UserResponseDTO>> findAll(Pageable pageable) {
-		Page<UserResponseDTO> page = userService.findAll(pageable);
+	public ResponseEntity<List<UserResponseDTO>> findAll(Pageable pageable) {
+		List<UserResponseDTO> page = userService.findAll(pageable).getContent();
 		return ResponseEntity.ok().body(page);
 	}
 	
