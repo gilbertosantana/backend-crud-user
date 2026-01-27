@@ -6,7 +6,6 @@ package com.github.gilbertosantana.apiUser.resources;
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +23,8 @@ import com.github.gilbertosantana.apiUser.dto.request.UserUpdateDTO;
 import com.github.gilbertosantana.apiUser.dto.response.UserResponseDTO;
 import com.github.gilbertosantana.apiUser.services.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
@@ -35,7 +36,7 @@ public class UserResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<UserResponseDTO> insert(@RequestBody UserRequestDTO objDto) {
+	public ResponseEntity<UserResponseDTO> insert(@RequestBody @Valid UserRequestDTO objDto) {
 		UserResponseDTO obj = userService.insert(objDto);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentContextPath()
