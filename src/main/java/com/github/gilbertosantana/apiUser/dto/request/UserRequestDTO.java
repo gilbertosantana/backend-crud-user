@@ -1,5 +1,7 @@
 package com.github.gilbertosantana.apiUser.dto.request;
 
+import java.io.Serializable;
+
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.github.gilbertosantana.apiUser.model.enums.Profile;
@@ -10,7 +12,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public class UserRequestDTO {
+public class UserRequestDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@NotBlank(message = "Name may not be blank")
 	@Size(min = 2, max = 50, message = "The name must be longer than {min} and shorter than {max} caracteres")

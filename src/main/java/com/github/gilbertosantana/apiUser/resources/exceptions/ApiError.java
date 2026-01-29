@@ -1,4 +1,4 @@
-package com.github.gilbertosantana.apiUser.dto.response;
+package com.github.gilbertosantana.apiUser.resources.exceptions;
 
 import java.io.Serializable;
 import java.util.HashMap;

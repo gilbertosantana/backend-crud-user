@@ -1,8 +1,12 @@
 package com.github.gilbertosantana.apiUser.dto.request;
 
+import java.io.Serializable;
+
 import com.github.gilbertosantana.apiUser.model.enums.Profile;
 
-public class UserUpdateDTO {
+public class UserUpdateDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private String email;
