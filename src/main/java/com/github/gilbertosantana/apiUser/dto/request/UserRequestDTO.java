@@ -6,6 +6,7 @@ import com.github.gilbertosantana.apiUser.model.enums.Profile;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -16,14 +17,16 @@ public class UserRequestDTO {
 	private String name;
 	@Email(message = "Invalid email address")
 	private String email;
-	@Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{6,8}$")
+	@NotNull(message = "Password may not be null")
+	@Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{6,8}$", message = "The password must be 4 to 6 characters in length and must include at least one uppercase letter and one special character")
 	private String password;
 	@Pattern(regexp = "^\\d{11}$", message = "The telephone number must have 11 digits")
 	private String telephone;
+	@NotNull(message = "CPF may not be null")
 	@CPF(message = "Invalid Brazilian individual taxpayer registration number (CPF)")
 	private String cpf;
-	@Pattern(regexp = "ADMIN|USER|SUPPORT", message = "Invalid profile")
-	private Integer profile;
+	@NotNull(message = "The profile must not be null.")
+	private Profile profile;
 	
 	public UserRequestDTO() {
 		
@@ -36,7 +39,7 @@ public class UserRequestDTO {
 		this.password = password;
 		this.telephone = telephone;
 		this.cpf = cpf;
-		this.profile = profile.getCode();
+		this.profile = profile;
 	}
 
 	public String getName() {
@@ -79,11 +82,11 @@ public class UserRequestDTO {
 		this.cpf = cpf;
 	}
 
-	public Integer getProfile() {
+	public Profile getProfile() {
 		return profile;
 	}
 
 	public void setProfile(Profile profile) {
-		this.profile = profile.getCode();
+		this.profile = profile;
 	}
 }

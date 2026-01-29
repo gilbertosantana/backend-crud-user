@@ -18,7 +18,7 @@ public class UserMapper {
 		user.setPassword(dto.getPassword());
 		user.setTelephone(dto.getTelephone());
 		user.setCpf(dto.getCpf());
-		user.setProfile(Profile.valueOf(dto.getProfile()));
+		user.setProfile(dto.getProfile());
 		return user;
 		
 	}
