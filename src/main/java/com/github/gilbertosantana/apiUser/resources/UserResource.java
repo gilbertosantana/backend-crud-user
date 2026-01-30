@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.github.gilbertosantana.apiUser.dto.filter.UserFilter;
 import com.github.gilbertosantana.apiUser.dto.request.UserRequestDTO;
 import com.github.gilbertosantana.apiUser.dto.request.UserUpdateDTO;
 import com.github.gilbertosantana.apiUser.dto.response.UserResponseDTO;
@@ -53,8 +54,8 @@ public class UserResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<UserResponseDTO>> findAll(Pageable pageable) {
-		List<UserResponseDTO> page = userService.findAll(pageable).getContent();
+	public ResponseEntity<List<UserResponseDTO>> findAll(UserFilter filter, Pageable pageable) {
+		List<UserResponseDTO> page = userService.findAll(filter, pageable).getContent();
 		return ResponseEntity.ok().body(page);
 	}
 	

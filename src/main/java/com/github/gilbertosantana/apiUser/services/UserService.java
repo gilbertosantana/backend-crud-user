@@ -7,9 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.github.gilbertosantana.apiUser.dto.filter.UserFilter;
 import com.github.gilbertosantana.apiUser.dto.request.UserRequestDTO;
 import com.github.gilbertosantana.apiUser.dto.request.UserUpdateDTO;
 import com.github.gilbertosantana.apiUser.dto.response.UserResponseDTO;
+import com.github.gilbertosantana.apiUser.dto.specification.UserSpecification;
 import com.github.gilbertosantana.apiUser.model.User;
 import com.github.gilbertosantana.apiUser.model.mapper.UserMapper;
 import com.github.gilbertosantana.apiUser.repository.UserRepository;
@@ -47,8 +49,8 @@ public class UserService {
 		}
 	}
 	
-	public Page<UserResponseDTO> findAll(Pageable pageable) {
-		Page<User> page = userRepository.findAll(pageable);
+	public Page<UserResponseDTO> findAll(UserFilter filter, Pageable pageable) {
+		Page<User> page = userRepository.findAll(UserSpecification.filter(filter), pageable);
 		Page<UserResponseDTO> pageDto = page.map(UserMapper::toResponsDto);
 		return pageDto;
 	}
