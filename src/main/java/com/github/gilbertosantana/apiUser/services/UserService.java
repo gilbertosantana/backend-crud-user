@@ -33,7 +33,7 @@ public class UserService {
 		obj.setActive(true);
 		obj.setCreationDate(LocalDate.now());
 		userRepository.save(obj);
-		return UserMapper.toResponsDto(obj);
+		return UserMapper.toResponseDto(obj);
 		
 	}
 	
@@ -43,7 +43,7 @@ public class UserService {
 			UserMapper.updateDate(entity, obj);
 			entity.setUpdateDate(LocalDate.now());
 			userRepository.save(entity);
-			return UserMapper.toResponsDto(entity);
+			return UserMapper.toResponseDto(entity);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}
@@ -51,13 +51,13 @@ public class UserService {
 	
 	public Page<UserResponseDTO> findAll(UserFilter filter, Pageable pageable) {
 		Page<User> page = userRepository.findAll(UserSpecification.filter(filter), pageable);
-		Page<UserResponseDTO> pageDto = page.map(UserMapper::toResponsDto);
+		Page<UserResponseDTO> pageDto = page.map(UserMapper::toResponseDto);
 		return pageDto;
 	}
 	
 	public UserResponseDTO findById(Long id) {
 		Optional<User> obj = userRepository.findById(id);
-		Optional<UserResponseDTO> objDto = obj.map(UserMapper::toResponsDto);
+		Optional<UserResponseDTO> objDto = obj.map(UserMapper::toResponseDto);
 		return objDto.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	

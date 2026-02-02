@@ -45,7 +45,7 @@ public class UserMapper {
 		
 	}
 	
-	public static UserResponseDTO toResponsDto(User user) {
+	public static UserResponseDTO toResponseDto(User user) {
 		UserResponseDTO dto = new UserResponseDTO();
 		dto.setId(user.getId());
 		dto.setName(user.getName());
